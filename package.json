@@ -1,0 +1,70 @@
+{
+  "name": "hightide-bedrock-afk",
+  "version": "1.4.0",
+  "description": "TideAFK Java web dashboard and desktop client",
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "start": "node server.js",
+    "start:desktop": "electron .",
+    "check": "node --check main.js && node --check preload.js && node --check renderer/app.js",
+    "build": "electron-builder --win nsis --x64",
+    "build:portable": "electron-builder --win portable --x64"
+  },
+  "dependencies": {
+    "bedrock-protocol": "3.60.1",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "minecraft-data": "3.117.0",
+    "mineflayer": "^4.39.0",
+    "socket.io": "^4.8.1"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "electron"
+    ],
+    "ignoredBuiltDependencies": [
+      "raknet-native"
+    ]
+  },
+  "build": {
+    "appId": "net.hightide.bedrockafk",
+    "productName": "TideAFK",
+    "asar": false,
+    "files": [
+      "main.js",
+      "bot-worker.js",
+      "preload.js",
+      "renderer/**/*",
+      "build/tideafk-icon-256.png",
+      "build/tideafk.ico",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": "runtime/node.exe",
+        "to": "runtime/node.exe"
+      }
+    ],
+    "win": {
+      "icon": "build/tideafk.ico",
+      "target": [
+        "nsis"
+      ],
+      "artifactName": "TideAFK-Setup.exe"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "TideAFK",
+      "deleteAppDataOnUninstall": false
+    }
+  }
+}
